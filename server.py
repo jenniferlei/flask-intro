@@ -8,48 +8,24 @@ from flask import Flask, request
 # Flask wants to know this to know what any imported things are relative to.
 app = Flask(__name__)
 
+def return_dropdown(options):
+  html_strings_list = []
+  for option in options:
+    html_strings_list.append(f'<option value="{option}">{option.capitalize()}</option>')
+  all_html_strings = """
+""".join(html_strings_list)
+  return all_html_strings
+
 AWESOMENESS = [
     'awesome', 'terrific', 'fantastic', 'neato', 'fantabulous', 'wowza',
     'oh-so-not-meh', 'brilliant', 'ducky', 'coolio', 'incredible',
     'wonderful', 'smashing', 'lovely']
 
-def return_disses(disses):
-  diss_list = []
-  for diss in disses:
-    diss_list.append(f'<option value="{diss}">{diss.capitalize()}</option>')
-  all_disses = """
-""".join(diss_list)
-  return all_disses
-
 DISSES = ['bad', 'not very good', 'just okay', 'slovenly', 'delinquent',
     'terrible', 'shameful', 'clumsy']
 
-
-@app.route('/diss')
-def say_goodbye():
-    """Say good bye and prompt for user's name and allow user to choose a diss."""
-
-    return """
-    <!doctype html>
-    <html>
-      <head>
-        <title>You There!</title>
-      </head>
-      <body>
-        <h1>You There!</h1>
-        <form action="/diss">
-          What's your name? <input type="text" name="person">
-
-          <br>
-          Choose your diss
-          <select name="diss">
-            {return_disses(disses)}
-          </select>
-          <input type="submit" value="Submit">
-        </form>
-      </body>
-    </html>
-    """
+return_dropdown(AWESOMENESS)
+return_dropdown(DISSES)
 
 @app.route('/')
 def start_here():
@@ -59,7 +35,6 @@ def start_here():
     <!doctype html><html>Hi! This is the home page.
     <p>
     <a href="http://localhost:5000/hello">Hello</a>
-    <a href="http://localhost:5000/goodbye">Good Bye</a>
     </p>
     </html>
     """
