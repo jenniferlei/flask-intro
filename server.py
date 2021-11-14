@@ -88,6 +88,8 @@ def greet_person():
       description = compliment
     elif diss != "blank":
       description = diss
+    else:
+      description = "something"
 
     #if they chose an item from the insult form, "
     #then return this:
