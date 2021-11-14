@@ -44,7 +44,7 @@ def start_here():
 def say_hello():
     """Say hello and prompt for user's name."""
 
-    return """
+    return f"""
     <!doctype html>
     <html>
       <head>
@@ -58,47 +58,22 @@ def say_hello():
           <br>
           Choose your compliment
           <select name="compliment">
-            <option value="awesome">Awesome</option>
-            <option value="terrific">Terrific</option>
-            <option value="fantastic">Fantastic</option>
-            <option value="neato">Neato</option>
-            <option value="fantabulous">Fantabulous</option>
-            <option value="wowza">Wowza</option>
-            <option value="oh-so-not-meh">Oh-so-not-meh</option>
-            <option value="brilliant">Brilliant</option>
-            <option value="ducky">Ducky</option>
-            <option value="coolio">Coolio</option>
-            <option value="incredible">Incredible</option>
-            <option value="wonderful">Wonderful</option>
-            <option value="smashing">Smashing</option>
-            <option value="lovely">Lovely</option>
+            <option value="blank"></option>
+            {return_dropdown(AWESOMENESS)}
           </select>
-          <input type="submit" value="Submit">
+          <br>OR
+          <br>
+          Choose your diss
+          <select name="diss">
+            <option value="blank"></option>
+            {return_dropdown(DISSES)}
+          </select>
+          <br><input type="submit" value="Submit">
         </form>
       </body>
     </html>
     """
 
-
-@app.route('/goodbye')
-def diss_person():
-    """Get user by name."""
-    player = request.args.get("person")
-
-    insult = request.args.get("diss")
-
-    return f"""
-    <!doctype html>
-    <html>
-      <head>
-        <title>A Diss</title>
-      </head>
-      <body>
-        Hi, {player}! I think you're {insult}!
-        <br><a href="http://localhost:5000/">Home</a>
-      </body>
-    </html>
-    """
 
 @app.route('/greet')
 def greet_person():
@@ -106,6 +81,14 @@ def greet_person():
     player = request.args.get("person")
 
     compliment = request.args.get("compliment")
+
+    diss = request.args.get("diss")
+
+    if compliment != "blank":
+      description = compliment
+    elif diss != "blank":
+      description = diss
+
     #if they chose an item from the insult form, "
     #then return this:
     return f"""
@@ -115,7 +98,7 @@ def greet_person():
         <title>A Compliment</title>
       </head>
       <body>
-        Hi, {player}! I think you're {compliment}!
+        Hi, {player}! I think you're {description}!
         <br><a href="http://localhost:5000/">Home</a>
       </body>
     </html>
